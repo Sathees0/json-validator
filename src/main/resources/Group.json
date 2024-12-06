@@ -1,0 +1,84 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "file:///C:/json-validator2/src/main/resources/Group.json",
+  "title": "Group",
+  "type": "object",
+
+  "properties": {
+
+    "id": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+    },
+
+    "name": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 50,
+      "message": {
+        "minLength" : "$.name: The name at least have one character",
+        "maxLength" : "The name should be lesser than 50 character"
+      }
+    },
+
+    "description": {
+      "type": ["null","string"],
+      "minLength": 1,
+      "maxLength": 500,
+      "message": {
+        "minLength" : "The description at least have one character",
+        "maxLength" : "The description should be lesser than 500 character"
+      }
+    },
+
+    "userCount": {
+      "type": ["integer"],
+      "minimum": 1,
+      "maximum": 500,
+      "message": {
+        "type" : "User count must be integer",
+        "minimum" : "The user count must be one or above",
+        "maximum" : "The user count should be lesser than 500"
+      }
+    },
+
+    "state": {
+      "type": "string",
+      "enum": ["PRIVATE", "PUBLIC"],
+      "message": {
+        "type": "The state must be PRIVATE or PUBLIC",
+        "enum" : "The state must be PRIVATE or PUBLIC"
+      }
+    },
+
+    "isDeleted": {
+      "type": ["null", "boolean"],
+      "message": {
+        "type" : "The value must be boolean"
+      }
+    },
+
+    "users": {
+      "type": ["array", "null"],
+      "uniqueItems": true,
+      "items": {
+        "$ref": "User.json"
+      },
+      "message": {
+        "type" : "The users must be array",
+        "uniqueItems": "The users value should be unique"
+      }
+    }
+  },
+
+  "required": ["id", "name", "state", "userCount"],
+  "message": {
+    "type": "Group must be object and cannot null",
+    "required": {
+      "id": "id is a mandatory field and cannot empty",
+      "name": "name is a mandatory field and cannot empty",
+      "state": "state is a mandatory field and cannot empty",
+      "userCount": "user count is a mandatory field and cannot empty"
+    }
+  }
+}

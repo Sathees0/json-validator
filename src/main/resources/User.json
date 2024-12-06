@@ -1,0 +1,106 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "file:///C:/json-validator2/src/main/resources/User.json",
+  "title": "User",
+  "type": "object",
+
+  "properties": {
+
+    "id": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$",
+      "message": {
+        "pattern" : "The id must be UUID"
+      }
+    },
+
+    "name": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 20,
+      "message": {
+        "minLength" : "The name at least have one character",
+        "maxLength" : "The name should be lesser than 20 character"
+      }
+    },
+
+    "countryCode": {
+      "type": "string",
+      "default": "+91",
+      "enum": ["+91", "+86"]
+    },
+    "phoneNumber": {
+      "type": "string"
+    },
+
+    "dob": {
+      "type": ["string", "null"],
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+      "message": {
+        "pattern" : "The dob must be year-month-date"
+      }
+    },
+
+    "role": {
+      "type": ["string", "null"],
+      "enum": ["ADMIN", "MEMBER"],
+      "message": {
+        "enum" : "The role must be ADMIN or MEMBER"
+      }
+    },
+
+    "isDeleted": {
+      "type": ["boolean", "null"],
+      "message": {
+        "type" : "The value must be boolean"
+      }
+    }
+  },
+
+  "if": {
+    "properties" : {
+      "countryCode" : {
+        "type": "string",
+        "const": "+91"
+      }
+    }
+  },
+
+  "then": {
+    "properties": {
+      "phoneNumber": {
+        "type": "string",
+        "pattern": "^[6789]\\d{9}$",
+        "minLength": 1,
+        "maxLength": 10,
+        "const": null,
+        "format": "phone",
+        "message": {
+          "pattern" : "The phone number must be 10 digit"
+        }
+      }
+    }
+  },
+  "else": {
+    "properties": {
+      "phoneNumber": {
+        "type": "string",
+        "pattern": "^1[0-9]{10}$",
+        "message": {
+          "pattern" : "The phone number must be 11 digit"
+        }
+      }
+    }
+  },
+
+  "required": ["id", "name", "countryCode", "phoneNumber"],
+  "message": {
+    "type": "User must be object and cannot null",
+    "required": {
+      "id": "id is a mandatory field and cannot empty",
+      "name": "name is a mandatory field and cannot empty",
+      "countryCode": "country code is a mandatory field and cannot empty",
+      "phoneNumber": "phone number is a mandatory field and cannot empty"
+    }
+  }
+}

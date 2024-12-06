@@ -1,0 +1,57 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "file:///C:/json-validator2/src/main/resources/Message.json",
+  "title": "Message",
+  "type": "object",
+
+  "properties": {
+
+    "id": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$",
+      "message": {
+        "pattern" : "The id must be UUID"
+      }
+    },
+
+    "content": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 10000,
+      "message": {
+        "minLength" : "The content at least have one character",
+        "maxLength" : "The content should be lesser than 10000 character"
+      }
+    },
+
+    "timeAndDate": {
+      "type": "string",
+      "format": "date-time",
+      "message": {
+        "format" : "The time and date should be (year-month-date T hours:month:second Z)"
+      }
+    },
+
+    "isDeleted": {
+      "type": ["null","boolean"],
+      "message": {
+        "type" : "The value must be boolean"
+      }
+    },
+
+    "user": {
+      "$ref": "User.json"
+    }
+  },
+
+  "required": ["id", "content", "timeAndDate", "user"],
+  "message": {
+    "type": "Message must be object and cannot null",
+    "required": {
+      "id": "id is a mandatory field and cannot empty",
+      "content": "content is a mandatory field and cannot empty",
+      "timeAndDate": "timeAndDate is a mandatory field and cannot empty",
+      "user": "user is a mandatory field and cannot null"
+    }
+  }
+}
